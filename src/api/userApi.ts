@@ -17,7 +17,7 @@ export const logInUser = async (
     });
 
     if (!response.ok) {
-      return new Error("Ошибка запроса");
+      return new Error(`Ошибка запроса: ${await response.text()}`);
     }
     const res: UserType = await response.json();
     console.log(res);

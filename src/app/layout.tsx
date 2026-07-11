@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "./LayoutComponents/Header";
+import { Alert } from "./UIKit/Alert";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Header />
         {children}
+        <Alert/>
       </body>
     </html>
   );

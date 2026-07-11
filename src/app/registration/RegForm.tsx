@@ -4,7 +4,7 @@ import { RegUser } from "@/src/api/userApi";
 import { userStore } from "@/src/store/user.store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitEvent, useEffect, useState } from "react";
+import { SubmitEvent, useState } from "react";
 
 export const RegForm = () => {
   const [formData, setFormData] = useState({

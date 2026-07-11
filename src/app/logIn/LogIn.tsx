@@ -1,6 +1,7 @@
 "use client";
 
 import { logInUser } from "@/src/api/userApi";
+import { errorStore } from "@/src/store/error.store";
 import { userStore } from "@/src/store/user.store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,8 +14,8 @@ export default function LogIn() {
   });
   const router = useRouter();
   const userAuthStore = userStore((state) => state);
+  const errorHandler = errorStore((state) => state);
 
-  
   const getLogIn = async (
     e: SubmitEvent,
     formData: {
@@ -24,9 +25,13 @@ export default function LogIn() {
   ): Promise<Response | undefined | void> => {
     e.preventDefault();
     const user = await logInUser(formData.login, formData.password);
+    console.log(user);
 
     if (user instanceof Error) {
-      console.error(user.message);
+      console.log(user);
+
+      errorHandler.setError({ text: user.message });
+      console.log(user.message);
       return;
     }
     userAuthStore.logIn(user);
