@@ -1,46 +1,59 @@
 "use client";
 
-import { RegUser } from "@/src/api/userApi";
+import { isExistUser, RegUser } from "@/src/api/userApi";
 import { userStore } from "@/src/store/user.store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitEvent, useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "../UIKit/components/Button/Button";
+import { TextInput } from "../UIKit/components/TextInput/TextInput";
+import { FileInput } from "../UIKit/components/FileInput/FileInput";
+
+type RegFormData = {
+  login: string;
+  name: string;
+  surname: string;
+  patronymic: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+};
+
+const formatPhoneNumber = (value: string) => {
+  let digits = value.replace(/\D/g, "").replace(/^8/, "7");
+  if (!digits.startsWith("7")) digits = `7${digits}`;
+  digits = digits.slice(0, 11);
+
+  const rest = digits.slice(1);
+  let result = "+7";
+  if (rest.length > 0) result += ` (${rest.slice(0, 3)}`;
+  if (rest.length >= 3) result += ")";
+  if (rest.length > 3) result += ` ${rest.slice(3, 6)}`;
+  if (rest.length > 6) result += `-${rest.slice(6, 8)}`;
+  if (rest.length > 8) result += `-${rest.slice(8, 10)}`;
+  return result;
+};
 
 export const RegForm = () => {
-  const [formData, setFormData] = useState({
-    login: "",
-    name: "",
-    surname: "",
-    patronymic: "",
-    email: "",
-    phone: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<RegFormData>({ mode: "onBlur", reValidateMode: "onBlur" });
+
+  const phoneField = register("phone", {
+    required: "Введите телефон",
+    validate: (value) =>
+      value.replace(/\D/g, "").length === 11 || "Некорректный номер",
   });
 
   const router = useRouter();
   const userAuthStore = userStore((state) => state);
-  const createUser = async (
-    e: SubmitEvent,
-    formData: {
-      login: string;
-      name: string;
-      surname: string;
-      patronymic: string;
-      email: string;
-      phone: string;
-      password: string;
-    },
-  ) => {
-    e.preventDefault();
-    const user = await RegUser(
-      formData.login,
-      formData.name,
-      formData.surname,
-      formData.patronymic,
-      formData.email,
-      formData.phone,
-      formData.password,
-    );
+  const createUser = async (formData: RegFormData) => {
+    const user = await RegUser(formData);
 
     if (user instanceof Error) {
       console.error(user.message);
@@ -51,100 +64,110 @@ export const RegForm = () => {
     router.push("/");
   };
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   return (
     <form
-      onSubmit={(e: SubmitEvent) => createUser(e, formData)}
+      onSubmit={handleSubmit((data) => createUser(data))}
       className="flex flex-col min-h-full items-center justify-center center m-1.5 gap-y-10 flex-1"
     >
-      <input
-        type="text"
-        name="login"
-        placeholder="логин"
-        className="input max-w-sm"
-        value={formData.login}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            login: e.target.value,
-          }))
-        }
-      />
-      <input
-        type="text"
-        name="surname"
-        placeholder="фамилия"
-        className="input max-w-sm"
-        value={formData.surname}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            surname: e.target.value,
-          }))
-        }
-      />
-      <input
-        type="text"
-        name="patronymic"
-        placeholder="отчество"
-        className="input max-w-sm"
-        value={formData.patronymic}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            patronymic: e.target.value,
-          }))
-        }
-      />
-      <input
-        type="text"
-        name="email"
-        placeholder="email"
-        className="input max-w-sm"
-        value={formData.email}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            email: e.target.value,
-          }))
-        }
-      />
-      <input
-        type="text"
-        name="phone"
-        placeholder="телефон"
-        className="input max-w-sm"
-        value={formData.phone}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            phone: e.target.value,
-          }))
-        }
-      />
-      <input
-        type="text"
-        name="password"
-        placeholder="пароль"
-        className="input max-w-sm"
-        value={formData.password}
-        onChange={(e) =>
-          setFormData((prev) => ({
-            ...prev,
-            password: e.target.value,
-          }))
-        }
-      />
-      <div className="flex w-fit">
-        <button type="submit" className="btn btn-outline grow-7">
-          отправить
-        </button>
-        <Link
-          className="btn btn-outline outline-gray-400font-light text-xs size-min h-7 grow-3"
-          href={"/logIn"}
-        >
-          войти
-        </Link>
+      <div className="grid grid-cols-2 gap-4">
+        <TextInput
+          placeholder="логин"
+          className="input"
+          error={errors.login?.message}
+          {...register("login", {
+            required: "Введите логин",
+            minLength: {
+              value: 3,
+              message: "Минимум 3 символа",
+            },
+            validate: async (value) => {
+              const result = await isExistUser(value, null);
+              if (result instanceof Error) return true;
+              return !result || "Пользователь с таким логином уже существует";
+            },
+          })}
+        />
+        <TextInput
+          placeholder="имя"
+          className="input"
+          error={errors.name?.message}
+          {...register("name", {
+            required: "Введите имя",
+          })}
+        />
+        <TextInput
+          placeholder="фамилия"
+          className="input"
+          error={errors.surname?.message}
+          {...register("surname", {
+            required: "Введите фамилию",
+          })}
+        />
+        <TextInput
+          placeholder="email"
+          className="input"
+          error={errors.email?.message}
+          // aria-invalid={errors.email ? "true" : "false"}
+          {...register("email", {
+            required: "Введите email",
+            validate: async (value) => {
+              const result = await isExistUser(null, value);
+              if (result instanceof Error) return true;
+              return !result || "Пользователь с таким email уже существует";
+            },
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Введите корректный email",
+            },
+          })}
+        />
+        <TextInput
+          type="tel"
+          inputMode="tel"
+          placeholder="+7 (777) 777-77-77"
+          error={errors.phone?.message}
+          {...phoneField}
+          onChange={(e) => {
+            e.target.value = formatPhoneNumber(e.target.value);
+            phoneField.onChange(e);
+          }}
+        />
+        <TextInput
+          type="password"
+          placeholder="пароль"
+          className="input"
+          error={errors.password?.message}
+          {...register("password", {
+            required: "Введите пароль",
+            minLength: {
+              value: 3,
+              message: "Минимум 3 символа",
+            },
+          })}
+        />
+        <TextInput
+          type="password"
+          placeholder="повторите пароль"
+          className="input"
+          error={errors.confirmPassword?.message}
+          {...register("confirmPassword", {
+            required: "Повторите пароль",
+            validate: (value) =>
+              value === watch("password") || "Пароли не совпадают",
+          })}
+        />
+        {/* <FileInput className="col-span-2" /> */}
       </div>
+      <Button type="submit" className="btn btn-outline">
+        отправить
+      </Button>
+      <Link className="absolute bottom-5 right-5" href={"/logIn"}>
+        <Button variant="ghost">войти</Button>
+      </Link>
     </form>
   );
 };

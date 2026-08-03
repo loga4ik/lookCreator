@@ -1,11 +1,17 @@
 import React from "react";
 import { UserInHeader } from "./UserInHeader";
+import { ThemeToggle } from "../UIKit/components/ThemeToggle/ThemeToggle";
+import styles from "./Header.module.css";
+import { Wrapper } from "../UIKit/components/Wrapper/Wrapper";
 
 export const Header = () => {
   return (
-    <div className="h-15 w-full bg-gray-950 text-amber-50 flex justify-between p-2.5 items-center">
+    <Wrapper className="wrapper m-5 flex justify-between px-2.5 items-center">
       Headder
-      <UserInHeader/>
-    </div>
+      <div className="flex items-center gap-3 p-5">
+        <ThemeToggle />
+        <UserInHeader />
+      </div>
+    </Wrapper>
   );
 };

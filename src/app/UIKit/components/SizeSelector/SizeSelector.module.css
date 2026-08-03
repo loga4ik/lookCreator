@@ -1,0 +1,23 @@
+.pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+}
+
+.selected {
+  color: var(--accent-deep);
+  font-weight: 500;
+  box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+}

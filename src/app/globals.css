@@ -1,29 +1,53 @@
 @import "tailwindcss";
-@import "tailwindcss";
-@plugin "flyonui";
+/* @plugin "flyonui";
 
-@source "./node_modules/flyonui/dist/index.js";
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
-} */
-/* 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@source "./node_modules/flyonui/dist/index.js"; */
+
+:root {
+  color-scheme: light dark;
+
+  --bg: light-dark(#e8e0ef, #382c31);
+  --bg-secondary: light-dark(#ece3f6, #35292d);
+  --shadow-dark: light-dark(rgba(176, 163, 196, 0.45), rgba(26, 19, 22, 0.55));
+  --shadow-light: light-dark(rgba(252, 250, 255, 0.9), rgba(76, 60, 66, 0.7));
+  --text-primary: light-dark(#4a4258, #f1e4e7);
+  --text-secondary: light-dark(#8b81a0, #c9adb2);
+  --text-muted: light-dark(#a89fbe, #957e83);
+  --border: light-dark(rgba(74, 66, 88, 0.1), rgba(241, 228, 231, 0.12));
+
+  --rose: light-dark(#d98a9b, #e6a3b2);
+  --rose-deep: light-dark(#a84f63, #f7d3da);
+  --sage: light-dark(#93ad8d, #a9c2a3);
+  --sage-deep: light-dark(#55704f, #dcead9);
+  --lavender: light-dark(#b3a4d6, #c6b8e6);
+  --lavender-deep: light-dark(#7c68aa, #e7dff5);
+  --gold: light-dark(#d8ab6c, #e3bd8b);
+  --gold-deep: light-dark(#9c6f34, #f5e2c8);
+  --danger: light-dark(#d9748a, #e58ba0);
+  --danger-deep: light-dark(#a83f56, #f5c3cf);
+
+  --accent: var(--lavender);
+  --accent-deep: var(--lavender-deep);
+
+  --font-display: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background 0.25s ease, color 0.25s ease;
+}

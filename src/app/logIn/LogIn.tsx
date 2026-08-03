@@ -6,6 +6,8 @@ import { userStore } from "@/src/store/user.store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { SubmitEvent, useEffect, useState } from "react";
+import { Button } from "../UIKit/components/Button/Button";
+import { TextInput } from "../UIKit/components/TextInput/TextInput";
 
 export default function LogIn() {
   const [formData, setFormData] = useState({
@@ -50,7 +52,7 @@ export default function LogIn() {
       onSubmit={(e: SubmitEvent) => getLogIn(e, formData)}
       className="flex flex-col min-h-full items-center justify-center center m-1.5 gap-y-10 flex-1"
     >
-      <input
+      <TextInput
         type="text"
         name="login"
         placeholder="логин"
@@ -63,7 +65,7 @@ export default function LogIn() {
           }))
         }
       />
-      <input
+      <TextInput
         type="text"
         name="password"
         placeholder="пароль"
@@ -76,17 +78,15 @@ export default function LogIn() {
           }))
         }
       />
-      <div className="flex w-fit">
-        <button type="submit" className="btn btn-outline grow-7">
+        <Button type="submit">
           отправить
-        </button>
+        </Button>
         <Link
-          className="btn btn-outline outline-gray-400font-light text-xs size-min h-7 grow-3"
+          className="absolute bottom-0 right-0"
           href={"/registration"}
         >
-          регистрация
+          <Button variant="ghost">регистрация</Button>
         </Link>
-      </div>
     </form>
   );
 }

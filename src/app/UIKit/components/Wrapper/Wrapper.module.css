@@ -1,0 +1,21 @@
+.wrapper {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lightShadow {
+  box-shadow:
+    3px 3px 6px var(--shadow-dark),
+    -3px -3px 6px var(--shadow-light);
+}
+
+.noShadow {
+  box-shadow: none;
+  /* border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg); */
+}

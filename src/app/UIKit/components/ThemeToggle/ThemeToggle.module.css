@@ -1,0 +1,21 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 14px;
+  border-radius: 100%;
+}
+
+.dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-size: 12px;
+  flex-shrink: 0;
+}

@@ -18,7 +18,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Header />
         {children}
-        <Alert/>
+        <Alert />
       </body>
     </html>
   );
