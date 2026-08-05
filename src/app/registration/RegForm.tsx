@@ -9,12 +9,12 @@ import { useForm } from "react-hook-form";
 import { Button } from "../UIKit/components/Button/Button";
 import { TextInput } from "../UIKit/components/TextInput/TextInput";
 import { FileInput } from "../UIKit/components/FileInput/FileInput";
+import { useAvatarUpload } from "./useAvatarUpload";
 
 type RegFormData = {
   login: string;
   name: string;
   surname: string;
-  patronymic: string;
   email: string;
   phone: string;
   password: string;
@@ -52,8 +52,10 @@ export const RegForm = () => {
 
   const router = useRouter();
   const userAuthStore = userStore((state) => state);
+  const { avatarUrl, isAvatarUploading, handleAvatarChange } = useAvatarUpload();
+
   const createUser = async (formData: RegFormData) => {
-    const user = await RegUser(formData);
+    const user = await RegUser({ ...formData, imgLink: avatarUrl });
 
     if (user instanceof Error) {
       console.error(user.message);
@@ -160,7 +162,12 @@ export const RegForm = () => {
               value === watch("password") || "Пароли не совпадают",
           })}
         />
-        {/* <FileInput className="col-span-2" /> */}
+        <FileInput
+          label="Аватар"
+          hint={isAvatarUploading ? "Загрузка..." : undefined}
+          accept="image/*"
+          onFilesChange={handleAvatarChange}
+        />
       </div>
       <Button type="submit" className="btn btn-outline">
         отправить

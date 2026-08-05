@@ -7,6 +7,7 @@ type RegFormData = {
   email: string;
   phone: string;
   password: string;
+  imgLink: string | null;
 };
 
 export const logInUser = async (
@@ -55,6 +56,7 @@ export const RegUser = async (
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
+        imgLink: formData.imgLink,
       }),
     });
 
