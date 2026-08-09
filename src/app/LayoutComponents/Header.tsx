@@ -1,7 +1,5 @@
-import React from "react";
 import { UserInHeader } from "./UserInHeader";
 import { ThemeToggle } from "../UIKit/components/ThemeToggle/ThemeToggle";
-import styles from "./Header.module.css";
 import { Wrapper } from "../UIKit/components/Wrapper/Wrapper";
 
 export const Header = () => {

@@ -1,29 +1,32 @@
-import React, { ReactNode } from "react";
+import type { MouseEventHandler, ReactNode } from "react";
 import styles from "./Wrapper.module.css";
 
-type props = {
+type Props = {
   className?: string;
-  itemKey?: string;
   children: ReactNode;
-  onClick?: () => void;
-  lightShadow?: boolean;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+  shadowOut?: boolean;
   shadow?: boolean;
 };
 
-export const Wrapper: React.FC<props> = ({
+export const Wrapper = ({
   children,
   className,
-  itemKey,
   onClick,
-  lightShadow = false,
+  shadowOut = true,
   shadow = true,
-}) => {
+}: Props) => {
+  const classes = [
+    styles.wrapper,
+    shadow && !shadowOut && styles.shadowIn,
+    !shadow && styles.noShadow,
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
-      key={itemKey}
-      className={`${styles.wrapper} ${shadow && lightShadow ? styles.lightShadow : ""} ${!shadow ? styles.noShadow : ""} ${className ?? ""}`}
-      onClick={onClick}
-    >
+    <div className={classes} onClick={onClick}>
       {children}
     </div>
   );

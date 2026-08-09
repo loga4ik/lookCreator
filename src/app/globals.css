@@ -45,6 +45,12 @@
   color-scheme: dark;
 }
 
+@layer utilities {
+  .text-primary{ color: var(--text-primary); }
+  .text-secondary{ color: var(--text-secondary); }
+  .text-muted{ color: var(--text-muted); }
+}
+
 body {
   background: var(--bg);
   color: var(--text-primary);

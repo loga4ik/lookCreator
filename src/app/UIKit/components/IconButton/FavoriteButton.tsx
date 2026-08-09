@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { IconButton } from "./IconButton";
 import { HeartIcon } from "../icons/HeartIcon";

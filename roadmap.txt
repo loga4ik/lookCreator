@@ -1,0 +1,74 @@
+LOOKCREATOR — ROADMAP (MVP)
+Обновлено: 07.08.2026
+
+Fashion-соцсеть: гардероб пользователя + сборка образов ("looks") из своих вещей +
+лента с образами других пользователей + лайки. MVP-скоуп, без чата/уведомлений/комментариев.
+
+Стек: Next.js 16 + React 19 + Zustand (фронт, папка lookCreator) /
+Express 5 + Prisma 7 + PostgreSQL (бэк, папка lookCreatorBackWS).
+
+
+ЭТАП 1 — AUTH (в работе, основное готово)
+--------------------------------------------
+[x] jsonwebtoken + JWT_SECRET (.env)
+[x] password убран из ответов /auth и /create
+[ ] httpOnly (+ sameSite, maxAge) на cookie с токеном
+[ ] cookie-parser и requireAuth-middleware подключены в app.ts
+[ ] GET /user/me — восстановление сессии по cookie
+[ ] POST /user/logout — очистка cookie
+[ ] CORS с credentials (если фронт и бэк на разных origin)
+[ ] zod-валидация входных данных в /create и /auth (nice-to-have)
+[ ] фронт: подхват сессии через /user/me при загрузке приложения
+[ ] фронт: logout дёргает /user/logout
+[ ] E2E-проверка всего флоу (регистрация → логин → reload → logout,
+    плюс проверка через devtools, что password нигде не уходит в ответах)
+
+
+ЭТАП 2 — WARDROBE / гардероб (в работе)
+--------------------------------------------
+[x] Prisma-схема: модель WardrobeItem + enum WardrobeCategory
+    (TOP, BOTTOM, OUTERWEAR, SHOES, ACCESSORY, DRESS)
+[ ] Миграция БД (npx prisma migrate dev --name add_wardrobe_item)
+[ ] Backend: POST /wardrobe — создание вещи (под requireAuth)
+[ ] Backend: GET /wardrobe — список вещей текущего пользователя
+[ ] Backend: DELETE /wardrobe/:id — удаление своей вещи
+[ ] Frontend: wardrobeApi.ts (create/list/delete, credentials: 'include')
+[ ] Frontend: страница /wardrobe (список + форма добавления,
+    переиспользовать FileInput/saveFiles для загрузки фото)
+[ ] Frontend: карточка вещи гардероба (адаптация ProductCard без цены/корзины)
+
+
+ЭТАП 3 — LOOKS / образы
+--------------------------------------------
+[ ] Prisma: модель Look (userId, caption, createdAt)
+[ ] Prisma: модель LookItem — связка many-to-many между Look и WardrobeItem
+[ ] Backend: POST /looks — создать образ из выбранных вещей гардероба
+[ ] Backend: GET /looks — список образов пользователя
+[ ] Backend: GET /looks/:id — детали одного образа
+[ ] Frontend: конструктор образа (выбор вещей из своего гардероба)
+[ ] Frontend: страница просмотра образа
+
+
+ЭТАП 4 — FEED + LIKES / лента и лайки
+--------------------------------------------
+[ ] Prisma: модель Like (userId, lookId, уникальный констрейнт на пару)
+[ ] Backend: GET /feed — образы всех пользователей, пагинация
+[ ] Backend: POST /looks/:id/like и DELETE /looks/:id/like
+[ ] Frontend: страница ленты
+[ ] Frontend: лайк-кнопка (использовать готовый FavoriteButton)
+
+
+ЭТАП 5 — FOLLOW / подписки (опционально, если останется время)
+--------------------------------------------
+[ ] Prisma: модель Follow (followerId, followingId)
+[ ] Backend: follow/unfollow, лента фильтруется по подпискам
+[ ] Frontend: кнопка подписки, страница профиля
+Примечание: по MVP-плану это первое, что можно выкинуть при нехватке времени.
+
+
+ЭТАП 6 — DEPLOY
+--------------------------------------------
+[ ] Frontend → Vercel
+[ ] Backend + Postgres → Railway или Render
+[ ] Финальный CORS / env для продакшена
+[ ] Проверка полного флоу на проде (регистрация → гардероб → образ → лента → лайк)

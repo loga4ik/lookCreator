@@ -43,7 +43,7 @@ export const RegUser = async (
 ): Promise<UserType | Error> => {
   try {
     console.log(formData);
-    
+
     const response = await fetch("api/user/create", {
       method: "POST",
       headers: {
@@ -96,4 +96,24 @@ export const isExistUser = async (
   } catch (error) {
     return new Error("Ошибка запроса: " + error);
   }
+};
+
+export const logOutUser = async (): Promise<true | Error> => {
+  const response = await fetch("api/user/logout", {
+    method: "GET",
+  });
+  return response.ok
+    ? true
+    : new Error(`Ошибка запроса: ${await response.text()}`);
+};
+
+export const authByToken = async (): Promise<UserType | Error> => {
+  const response = await fetch("api/user/me", {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    return new Error(`Ошибка запроса: ${await response.text()}`);
+  }
+  return await response.json();
 };

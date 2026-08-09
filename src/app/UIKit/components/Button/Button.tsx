@@ -3,11 +3,13 @@ import styles from "./Button.module.css";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md" | "lg";
   fullWidth?: boolean;
 };
 
 export const Button = ({
   variant = "secondary",
+  size = "md",
   fullWidth = false,
   className,
   type = "button",
@@ -15,6 +17,7 @@ export const Button = ({
 }: Props) => {
   const classes = [
     styles.btn,
+    styles[size],
     variant === "primary" && styles.primary,
     variant === "ghost" && styles.ghost,
     fullWidth && styles.fullWidth,
@@ -23,5 +26,5 @@ export const Button = ({
     .filter(Boolean)
     .join(" ");
 
-  return <button type={type} className={classes} {...rest}/>;
+  return <button type={type} className={classes} {...rest} />;
 };
