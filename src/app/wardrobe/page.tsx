@@ -4,8 +4,8 @@ import { UserType } from "@/src/store/user.store";
 import Image from "next/image";
 import { Button } from "../UIKit/components/Button/Button";
 import { LogOut } from "../LogOut";
-import { MyLooks } from "./MyLooks";
-import { MyItems } from "./MyItems";
+import { WardrobeItems } from "./WardrobeItems";
+import { WardrobeLooks } from "./WardrobeLooks";
 
 const getUser = async (): Promise<UserType | null> => {
   const cookieStore = await cookies();
@@ -18,6 +18,8 @@ const getUser = async (): Promise<UserType | null> => {
   if (!res.ok) return null;
   return res.json();
 };
+
+
 
 const Page = async () => {
   const user = await getUser();
@@ -65,12 +67,12 @@ const Page = async () => {
             <p>мои образы</p>
             <p>4 образа</p>
           </Wrapper>
-          <MyLooks />
+          <WardrobeLooks />
           <Wrapper className="py-1 px-3 mt-5 flex text-sm justify-between text-muted">
             <p>мои вещи</p>
             <p>4 вещи</p>
           </Wrapper>
-          <MyItems />
+          <WardrobeItems />
         </div>
       )}
     </>

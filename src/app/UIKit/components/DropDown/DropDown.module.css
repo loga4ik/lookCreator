@@ -1,0 +1,115 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 280px;
+}
+
+.label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 4px;
+}
+
+.required {
+  color: var(--danger-deep);
+}
+
+.root {
+  position: relative;
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  background: var(--bg);
+  box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.triggerOpen {
+  box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light), 0 0 0 2px var(--accent);
+}
+
+.triggerError {
+  box-shadow: inset 4px 4px 9px var(--shadow-dark), inset -4px -4px 9px var(--shadow-light), 0 0 0 2px var(--danger);
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  color: var(--text-muted);
+}
+
+.trigger svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.triggerOpen svg {
+  transform: rotate(180deg);
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  box-shadow: 9px 9px 18px var(--shadow-dark), -9px -9px 18px var(--shadow-light);
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.option {
+  width: 100%;
+  display: block;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.option:hover {
+  background: var(--bg-secondary);
+}
+
+.optionSelected {
+  color: var(--accent-deep);
+  font-weight: 500;
+  background: var(--bg-secondary);
+}
+
+.error {
+  font-size: 12px;
+  color: var(--danger-deep);
+  margin: 0;
+}

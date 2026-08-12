@@ -3,7 +3,7 @@ import { Wrapper } from "../UIKit/components/Wrapper/Wrapper";
 import { Button } from "../UIKit/components/Button/Button";
 import { ItemCard } from "../UIKit/components/ItemCard/ItemCard";
 
-export const MyItems = () => {
+export const WardrobeItems = () => {
   return (
     <>
       <div className="flex flex-no-wrap overflow-x-auto gap-8 py-8 px-6">
@@ -14,7 +14,7 @@ export const MyItems = () => {
           className="flex items-center justify-center rounded-2xl p-10"
         >
           {/* потом можно поменять на модалку */}
-          <Link href="/create-item">
+          <Link href="/wardrobe/createItem">
             <Button className="bg-primary">Добавить вещь</Button>
           </Link>
         </Wrapper>

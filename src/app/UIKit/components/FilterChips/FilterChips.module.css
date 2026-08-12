@@ -1,0 +1,34 @@
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow:
+    4px 4px 8px var(--shadow-dark),
+    -4px -4px 8px var(--shadow-light);
+  transition: box-shadow 0.2s ease;
+}
+
+.chipSm {
+  font-size: 12px;
+  padding: 6px 13px;
+}
+
+.active {
+  color: var(--accent-deep);
+  font-weight: 500;
+  box-shadow:
+    inset 3px 3px 6px var(--shadow-dark),
+    inset -3px -3px 6px var(--shadow-light);
+}

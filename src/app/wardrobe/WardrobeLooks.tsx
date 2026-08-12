@@ -3,7 +3,7 @@ import { LookCard } from "../UIKit/components/LookCard/LookCard";
 import { Wrapper } from "../UIKit/components/Wrapper/Wrapper";
 import { Button } from "../UIKit/components/Button/Button";
 
-export const MyLooks = () => {
+export const WardrobeLooks = () => {
   return (
     <>
       <div className="flex flex-no-wrap overflow-x-auto gap-8 py-8 px-6">
