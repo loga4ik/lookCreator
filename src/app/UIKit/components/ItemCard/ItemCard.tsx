@@ -3,9 +3,10 @@ import type { KeyboardEvent } from "react";
 import styles from "./ItemCard.module.css";
 import { FavoriteButton } from "../IconButton/FavoriteButton";
 import { HangerIcon } from "../icons/HangerIcon";
+import { Carousel } from "../Carousel/Carousel";
 
 type Props = {
-  imageUrl?: string;
+  images?: string[];
   title: string;
   category: string;
   meta?: string;
@@ -13,7 +14,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export const ItemCard = ({ imageUrl, title, category, meta, defaultFavorite = false, onClick }: Props) => {
+export const ItemCard = ({ images = [], title, category, meta, defaultFavorite = false, onClick }: Props) => {
   const subtitle = meta ? `${category} · ${meta}` : category;
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -33,8 +34,8 @@ export const ItemCard = ({ imageUrl, title, category, meta, defaultFavorite = fa
       onKeyDown={handleKeyDown}
     >
       <div className={styles.imageWrap}>
-        {imageUrl ? (
-          <img src={imageUrl} alt="" className={styles.image} />
+        {images.length ? (
+          <Carousel images={images} />
         ) : (
           <div className={styles.imagePlaceholder}>
             <HangerIcon />

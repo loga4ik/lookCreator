@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "../UIKit/components/Button/Button";
 import { TextInput } from "../UIKit/components/TextInput/TextInput";
 import { FileInput } from "../UIKit/components/FileInput/FileInput";
-import { useAvatarUpload } from "./useAvatarUpload";
+import { useImgsUpload } from "./useImgsUpload";
 
 type RegFormData = {
   login: string;
@@ -52,10 +52,10 @@ export const RegForm = () => {
 
   const router = useRouter();
   const userAuthStore = userStore((state) => state);
-  const { avatarUrl, isAvatarUploading, handleAvatarChange } = useAvatarUpload();
+  const { imgUrl, isAvatarUploading, handleAvatarChange } = useImgsUpload();
 
   const createUser = async (formData: RegFormData) => {
-    const user = await RegUser({ ...formData, imgLink: avatarUrl });
+    const user = await RegUser({ ...formData, imgLink: imgUrl });
 
     if (user instanceof Error) {
       console.error(user.message);

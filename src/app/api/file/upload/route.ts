@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, unlink, writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import path from "path";
 
@@ -19,4 +19,30 @@ export async function POST(request: Request) {
   await writeFile(path.join(uploadsDir, fileName), buffer);
 
   return NextResponse.json({ url: `/uploads/${fileName}` });
+}
+
+export async function DELETE(request: Request) {
+  const { url } = await request.json();
+
+  if (typeof url !== "string") {
+    return NextResponse.json({ error: "Некорректный url" }, { status: 400 });
+  }
+
+  const uploadsDir = path.join(process.cwd(), "public", "uploads");
+  const fileName = path.basename(url);
+  const filePath = path.join(uploadsDir, fileName);
+
+  if (path.dirname(filePath) !== uploadsDir) {
+    return NextResponse.json({ error: "Некорректный url" }, { status: 400 });
+  }
+
+  try {
+    await unlink(filePath);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+      throw error;
+    }
+  }
+
+  return NextResponse.json({ success: true });
 }

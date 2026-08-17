@@ -19,6 +19,7 @@ type Props = {
   allLabel?: string | null;
   size?: "md" | "sm";
   "aria-label"?: string;
+  className: string;
 };
 
 // Переиспользуемый чипс-фильтр в стиле SizeSelector (тот же паттерн
@@ -33,8 +34,11 @@ export const FilterChips = ({
   allLabel = "Все",
   size = "md",
   "aria-label": ariaLabel = "Фильтр",
+  className,
 }: Props) => {
-  const [internalValue, setInternalValue] = useState<string | null>(defaultValue);
+  const [internalValue, setInternalValue] = useState<string | null>(
+    defaultValue,
+  );
   const selected = value !== undefined ? value : internalValue;
 
   const handleSelect = (next: string | null) => {
@@ -43,11 +47,19 @@ export const FilterChips = ({
   };
 
   return (
-    <div className={styles.filters} role="group" aria-label={ariaLabel}>
+    <div
+      className={`${styles.filters} ${className}`}
+      role="group"
+      aria-label={ariaLabel}
+    >
       {allLabel !== null && (
         <button
           type="button"
-          className={[styles.chip, size === "sm" && styles.chipSm, selected === null && styles.active]
+          className={[
+            styles.chip,
+            size === "sm" && styles.chipSm,
+            selected === null && styles.active,
+          ]
             .filter(Boolean)
             .join(" ")}
           aria-pressed={selected === null}
