@@ -8,12 +8,14 @@ import { Autocomplete } from "../../UIKit/components/Autocomplete/Autocomplete";
 import { DropDownOption } from "../../UIKit/components/DropDown/DropDown";
 import { searchCategories } from "../../../api/categoryApi";
 import { createWardrobeItem } from "@/src/api/wardrobeApi";
+import { useRouter } from "next/navigation";
 export const CreateItemForm = () => {
   const [titleState, setTitleState] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState<DropDownOption[]>([]);
   const [deleteImgs, setDeleteImgs] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<number>();
+  const router = useRouter();
 
   const { imgUrls, isAvatarUploading, deleteUploadedImg, handleAvatarChange } =
     useImgsUpload({ isSingle: false });
@@ -46,6 +48,7 @@ export const CreateItemForm = () => {
       return;
     }
     setDeleteImgs(false);
+    router.push("../");
   };
 
   const imgUrlsRef = useRef(imgUrls);

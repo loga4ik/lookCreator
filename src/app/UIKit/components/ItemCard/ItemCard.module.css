@@ -1,12 +1,14 @@
 .card {
   position: relative;
+  display: inline-block;
+  break-inside: avoid;
   border-radius: var(--radius-lg);
   background: var(--bg);
   box-shadow:
     9px 9px 18px var(--shadow-dark),
     -9px -9px 18px var(--shadow-light);
   width: 100%;
-  max-width: 220px;
+  margin-bottom: 12px;
   overflow: hidden;
   cursor: pointer;
   border: none;

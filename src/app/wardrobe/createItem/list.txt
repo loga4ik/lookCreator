@@ -1,5 +1,0 @@
-input с drop: category ->
-привязка к bodyZone на беке при создании item`a
-color (замокать)
-imgLink
-name

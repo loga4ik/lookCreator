@@ -1,5 +1,5 @@
 "use client";
-import type { KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import styles from "./ItemCard.module.css";
 import { FavoriteButton } from "../IconButton/FavoriteButton";
 import { HangerIcon } from "../icons/HangerIcon";
@@ -11,11 +11,38 @@ type Props = {
   category: string;
   meta?: string;
   defaultFavorite?: boolean;
+  className?: string;
   onClick?: () => void;
 };
 
-export const ItemCard = ({ images = [], title, category, meta, defaultFavorite = false, onClick }: Props) => {
+export const ItemCard = ({
+  images = [],
+  title,
+  category,
+  meta,
+  defaultFavorite = false,
+  className,
+  onClick,
+}: Props) => {
   const subtitle = meta ? `${category} · ${meta}` : category;
+  const firstImage = images[0];
+  const [measuredRatio, setMeasuredRatio] = useState<number | null>(null);
+  const aspectRatio = firstImage ? measuredRatio : null;
+
+  useEffect(() => {
+    if (!firstImage) return;
+    let isCancelled = false;
+    const image = new Image();
+    image.onload = () => {
+      if (!isCancelled) {
+        setMeasuredRatio(image.naturalWidth / image.naturalHeight);
+      }
+    };
+    image.src = firstImage;
+    return () => {
+      isCancelled = true;
+    };
+  }, [firstImage]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (!onClick) return;
@@ -27,13 +54,16 @@ export const ItemCard = ({ images = [], title, category, meta, defaultFavorite =
 
   return (
     <div
-      className={styles.card}
+      className={[styles.card, className].filter(Boolean).join(" ")}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
       onKeyDown={handleKeyDown}
     >
-      <div className={styles.imageWrap}>
+      <div
+        className={styles.imageWrap}
+        style={aspectRatio ? { aspectRatio: `${aspectRatio}` } : undefined}
+      >
         {images.length ? (
           <Carousel images={images} />
         ) : (
@@ -42,7 +72,10 @@ export const ItemCard = ({ images = [], title, category, meta, defaultFavorite =
           </div>
         )}
         <div className={styles.favorite} onClick={(event) => event.stopPropagation()}>
-          <FavoriteButton defaultFavorite={defaultFavorite} />
+          <FavoriteButton
+            defaultFavorite={defaultFavorite}
+            style={{ boxShadow: "none" }}
+          />
         </div>
       </div>
 

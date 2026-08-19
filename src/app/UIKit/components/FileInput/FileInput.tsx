@@ -1,4 +1,5 @@
 import { useEffect, useId, useMemo, useState, type ChangeEvent, type DragEvent } from "react";
+import Image from "next/image";
 import styles from "./FileInput.module.css";
 import { UploadIcon } from "../icons/UploadIcon";
 import { CloseIcon } from "../icons/CloseIcon";
@@ -104,7 +105,14 @@ export const FileInput = ({
         {singlePreviewUrl ? (
           <>
             <span className={styles.previewThumbWrap}>
-              <img src={singlePreviewUrl} alt="" className={styles.previewThumb} />
+              <Image
+                src={singlePreviewUrl}
+                alt=""
+                width={40}
+                height={40}
+                unoptimized
+                className={styles.previewThumb}
+              />
               <button
                 type="button"
                 className={styles.previewRemoveBadge}
@@ -145,7 +153,14 @@ export const FileInput = ({
           {files.map((file, index) => (
             <li key={`${file.name}-${file.lastModified}-${index}`} className={styles.fileChip}>
               {previewUrls[index] ? (
-                <img src={previewUrls[index]} alt="" className={styles.thumb} />
+                <Image
+                  src={previewUrls[index]}
+                  alt=""
+                  width={32}
+                  height={32}
+                  unoptimized
+                  className={styles.thumb}
+                />
               ) : null}
               <span className={styles.fileMeta}>
                 <span className={styles.fileName}>{file.name}</span>

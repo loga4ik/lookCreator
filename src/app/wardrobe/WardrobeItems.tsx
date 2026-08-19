@@ -25,6 +25,8 @@ export const WardrobeItems = () => {
 
     getUserWardrobeItems(abortController.signal)
       .then((result) => {
+        console.log(result);
+
         if (result instanceof Error) {
           console.error(result.message);
           setWardrobeItems([]);
@@ -72,7 +74,16 @@ export const WardrobeItems = () => {
         onChange={setSelectedCategory}
         className="mt-5"
       />
-      <div className="flex flex-no-wrap overflow-x-auto gap-8 py-8 px-6">
+      <div className="columns-2 sm:columns-3 xl:columns-4 gap-3 py-8 px-6">
+        <Wrapper
+          shadowOut={false}
+          className="flex items-center justify-center rounded-2xl p-10 aspect-square break-inside-avoid mb-3"
+        >
+          {/* потом можно поменять на модалку */}
+          <Link href="/wardrobe/createItem">
+            <Button className="bg-primary">Добавить вещь</Button>
+          </Link>
+        </Wrapper>
         {visibleItems.map((item) => (
           <ItemCard
             images={item.imageUrls}
@@ -81,15 +92,6 @@ export const WardrobeItems = () => {
             key={item.id}
           />
         ))}
-        <Wrapper
-          shadowOut={false}
-          className="flex items-center justify-center rounded-2xl p-10"
-        >
-          {/* потом можно поменять на модалку */}
-          <Link href="/wardrobe/createItem">
-            <Button className="bg-primary">Добавить вещь</Button>
-          </Link>
-        </Wrapper>
       </div>
     </>
   );

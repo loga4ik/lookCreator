@@ -1,5 +1,6 @@
 "use client";
 import { useState, type MouseEvent } from "react";
+import Image from "next/image";
 import styles from "./Carousel.module.css";
 import { ChevronLeftIcon } from "../icons/ChevronLeftIcon";
 import { ChevronRightIcon } from "../icons/ChevronRightIcon";
@@ -30,7 +31,12 @@ export const Carousel = ({ images, alt = "", className }: Props) => {
       >
         {images.map((src, slideIndex) => (
           <div className={styles.slide} key={src + slideIndex}>
-            <img src={src} alt={alt} />
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(min-width: 1280px) 25vw, (min-width: 640px) 33vw, 50vw"
+            />
           </div>
         ))}
       </div>
