@@ -100,7 +100,7 @@ export const isExistUser = async (
 
 export const logOutUser = async (): Promise<true | Error> => {
   const response = await fetch("api/user/logout", {
-    method: "GET",
+    method: "POST",
   });
   return response.ok
     ? true
