@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Wrapper } from "../UIKit/components/Wrapper/Wrapper";
 import { Button } from "../UIKit/components/Button/Button";
 import { ItemCard } from "../UIKit/components/ItemCard/ItemCard";
@@ -15,6 +16,7 @@ import {
 } from "../UIKit/components/FilterChips/FilterChips";
 
 export const WardrobeItems = () => {
+  const router = useRouter();
   const [wardrobeItems, setWardrobeItems] = useState<
     WardrobeItemsWithCategoryType[]
   >([]);
@@ -90,6 +92,7 @@ export const WardrobeItems = () => {
             title={item.name}
             category={item.categoryName}
             key={item.id}
+            onClick={() => router.push(`/wardrobe/item/${item.id}`)}
           />
         ))}
       </div>

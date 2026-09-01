@@ -7,7 +7,7 @@ import { Button } from "../../UIKit/components/Button/Button";
 import { Autocomplete } from "../../UIKit/components/Autocomplete/Autocomplete";
 import { DropDownOption } from "../../UIKit/components/DropDown/DropDown";
 import { searchCategories } from "../../../api/categoryApi";
-import { createWardrobeItem } from "@/src/api/wardrobeApi";
+import { createWardrobeItem } from "@/src/api/wardrobeItemApi";
 import { useRouter } from "next/navigation";
 export const CreateItemForm = () => {
   const [titleState, setTitleState] = useState("");

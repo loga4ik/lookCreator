@@ -7,22 +7,26 @@ import { LogOut } from "../LogOut";
 import { WardrobeItems } from "./WardrobeItems";
 import { WardrobeLooks } from "./WardrobeLooks";
 
-const getUser = async (): Promise<UserType | null> => {
+interface UserWardrobeType extends UserType {
+  wardrobeItemsCount: number;
+  wardrobeLooksCount: number;
+  likesCount: number;
+}
+const getUser = async (): Promise<UserWardrobeType | null> => {
   const cookieStore = await cookies();
   console.log(cookieStore.toString());
   const res = await fetch("http://localhost:4000/user/me", {
     headers: { Cookie: cookieStore.toString() },
     cache: "no-store",
   });
-
   if (!res.ok) return null;
+
   return res.json();
 };
 
-
-
 const Page = async () => {
   const user = await getUser();
+  console.log(user);
 
   return (
     <>
@@ -59,18 +63,19 @@ const Page = async () => {
             </div>
           </Wrapper>
           <p className="text-sm text-muted">
-            <b className="text-primary">12</b> вещей в гардеробе •{" "}
-            <b className="text-primary">12</b> образов •{" "}
-            <b className="text-primary">12</b> избранных вещей
+            <b className="text-primary">{user.wardrobeItemsCount}</b> вещей в
+            гардеробе •{" "}
+            <b className="text-primary">{user.wardrobeLooksCount}</b> образов •{" "}
+            <b className="text-primary">{user.likesCount}</b> избранных вещей
           </p>
           <Wrapper className="py-1 px-3 mt-5 flex text-sm justify-between text-muted">
             <p>мои образы</p>
-            <p>4 образа</p>
+            <p>{user.wardrobeLooksCount} образа</p>
           </Wrapper>
           <WardrobeLooks />
           <Wrapper className="py-1 px-3 mt-5 flex text-sm justify-between text-muted">
             <p>мои вещи</p>
-            <p>4 вещи</p>
+            <p>{user.wardrobeItemsCount} вещи</p>
           </Wrapper>
           <WardrobeItems />
         </div>
